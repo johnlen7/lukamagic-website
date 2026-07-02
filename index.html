@@ -96,17 +96,17 @@ img{max-width:100%;display:block}
 /* ---------- hero ---------- */
 .hero{
   position:relative;overflow:hidden;border-bottom:1px solid var(--linha);
-  background:url("assets/lukamagic/site-quality/hero-arena-luka-1672.jpg") center top/cover no-repeat var(--preto);
+  background:url("assets/lukamagic/site-quality/hero-arena-luka-1672.jpg") center top/100% auto no-repeat var(--preto);
 }
 .hero::before{
   content:"";position:absolute;inset:0;pointer-events:none;
   background:
     linear-gradient(90deg,rgba(4,4,15,.95) 0%,rgba(4,4,15,.8) 40%,rgba(4,4,15,.12) 70%,rgba(4,4,15,.28) 100%),
-    linear-gradient(180deg,rgba(4,4,15,.72) 0%,rgba(4,4,15,.15) 26%,transparent 40%,transparent 70%,var(--preto) 100%);
+    linear-gradient(180deg,rgba(4,4,15,.72) 0%,rgba(4,4,15,.15) 24%,transparent 42%,rgba(4,4,15,.35) 82%,var(--preto) 100%);
 }
 .hero-grid{
   position:relative;display:grid;grid-template-columns:1.05fr .95fr;
-  gap:40px;align-items:center;padding:96px 0 72px;min-height:min(720px,84vh);
+  gap:40px;align-items:center;padding:88px 0 64px;min-height:56.3vw;max-height:none;
 }
 .kicker{
   display:inline-flex;align-items:center;gap:10px;
@@ -422,19 +422,13 @@ footer p{font-size:12.5px;color:rgba(156,156,168,.7);max-width:74ch;margin-top:1
     background:
       linear-gradient(180deg,rgba(4,4,15,.3) 0%,transparent 18%,transparent 34%,rgba(4,4,15,.85) 50%,var(--preto) 60%);
   }
-  .hero-grid{grid-template-columns:1fr;padding:82vw 0 44px;min-height:0}
+  .hero-grid{grid-template-columns:1fr;padding:70vw 0 44px;min-height:0}
   .hero-photo{display:none}
   .slips{grid-template-columns:1fr}
-  /* comunidade mobile: texto em cima (fundo sólido), imagem dos celulares abaixo */
-  .community{padding:72px 0 0;background:var(--preto)}
+  /* comunidade mobile: só o texto, sem imagem de fundo nem faixa dos celulares */
+  .community{padding:72px 0;background:var(--preto)}
   .community::before{display:none}
-  .community-media{
-    display:block;margin-top:38px;height:62vw;max-height:420px;
-    background:url("assets/lukamagic/site-quality/phones-vip-1600.jpg") center 42%/cover no-repeat var(--preto);
-    border-top:1px solid var(--linha);
-    -webkit-mask-image:linear-gradient(180deg,transparent,#000 12%);
-    mask-image:linear-gradient(180deg,transparent,#000 12%);
-  }
+  .community-media{display:none}
   .how{grid-template-columns:1fr 1fr}
   .proof-grid{grid-template-columns:1fr 1fr 1fr}
   .luka{grid-template-columns:1fr;gap:36px}
@@ -457,6 +451,14 @@ footer p{font-size:12.5px;color:rgba(156,156,168,.7);max-width:74ch;margin-top:1
   .statbar{grid-template-columns:1fr 1fr;gap:18px}
   .sticky-mobile{display:block}
   footer{padding-bottom:130px}
+  /* planos centralizados só no mobile */
+  .plan{align-items:center;text-align:center}
+  .plan .price{justify-content:center}
+  .plan ul{justify-items:center}
+  .plan li{padding-left:0}
+  .plan li::before{display:none}
+  .plan .for{min-height:0}
+  .plan.featured::before{left:50%;transform:translateX(-50%)}
 }
 @media(max-width:430px){
   .brand .name{font-size:15px}
@@ -699,7 +701,7 @@ footer p{font-size:12.5px;color:rgba(156,156,168,.7);max-width:74ch;margin-top:1
             <li>Gestão por unidades</li>
             <li>Suporte oficial</li>
           </ul>
-          <a class="btn ghost" href="#">Escolher grupo</a>
+          <a class="btn ghost" href="https://pay.kirvano.com/6ca46273-1918-4555-a007-fe8091d5c644" target="_blank" rel="noopener">Escolher grupo</a>
         </article>
         <article class="plan">
           <span class="tag">Especialidade</span>
@@ -713,7 +715,7 @@ footer p{font-size:12.5px;color:rgba(156,156,168,.7);max-width:74ch;margin-top:1
             <li>Leitura de rotação e lesão</li>
             <li>Suporte oficial</li>
           </ul>
-          <a class="btn ghost" href="#">Entrar no NBA</a>
+          <a class="btn ghost" href="https://pay.kirvano.com/6ca46273-1918-4555-a007-fe8091d5c644" target="_blank" rel="noopener">Entrar no NBA</a>
         </article>
         <article class="plan featured">
           <span class="tag">Completo</span>
@@ -727,7 +729,7 @@ footer p{font-size:12.5px;color:rgba(156,156,168,.7);max-width:74ch;margin-top:1
             <li>Aulas de gestão e método</li>
             <li>Comunidade + suporte</li>
           </ul>
-          <a class="btn" href="#">Quero ser VIP</a>
+          <a class="btn" href="https://pay.kirvano.com/931a877d-a3c8-4bf5-9b49-048f2d487bdf" target="_blank" rel="noopener">Quero ser VIP</a>
         </article>
         <article class="plan">
           <span class="tag">Temporada</span>
@@ -741,7 +743,7 @@ footer p{font-size:12.5px;color:rgba(156,156,168,.7);max-width:74ch;margin-top:1
             <li>Aulas e materiais</li>
             <li>Prioridade no suporte</li>
           </ul>
-          <a class="btn ghost" href="#">Garantir temporada</a>
+          <a class="btn ghost" href="https://pay.kirvano.com/69c09001-7e59-45e8-8df4-a0076f85c079" target="_blank" rel="noopener">Garantir temporada</a>
         </article>
       </div>
       <p class="plans-note">Pagamento em checkout externo seguro. Acesso liberado pelo suporte oficial após confirmação. Cancela quando quiser.</p>
@@ -803,7 +805,8 @@ footer p{font-size:12.5px;color:rgba(156,156,168,.7);max-width:74ch;margin-top:1
         <a href="#">Termos</a>
         <a href="#">Privacidade</a>
         <a href="#">Jogo responsável</a>
-        <a href="#">Suporte</a>
+        <a href="https://t.me/LUKASUPORTE77" target="_blank" rel="noopener">Suporte 1</a>
+        <a href="https://t.me/LUKASUPORTE15" target="_blank" rel="noopener">Suporte 2</a>
       </nav>
     </div>
     <p>Conteúdo destinado a maiores de 18 anos. Apostas esportivas envolvem risco financeiro e podem gerar perdas. Nenhum resultado passado garante resultado futuro. Jogue com responsabilidade. Protótipo de redesign — adicionar termos, política de privacidade, reembolso e links reais de checkout antes de produção.</p>
