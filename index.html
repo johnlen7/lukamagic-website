@@ -236,14 +236,21 @@ h2{
 .how p{color:var(--cinza);font-size:14.5px}
 
 /* prova */
-.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start}
 .proof-grid figure{
   background:var(--grafite);border:1px solid var(--linha);padding:10px;
+  display:flex;flex-direction:column;
 }
-.proof-grid img{width:100%;height:auto}
+.proof-grid .shot{
+  position:relative;width:100%;aspect-ratio:4/5;overflow:hidden;
+  border:1px solid var(--linha);background:var(--preto);
+}
+.proof-grid .shot img{
+  width:100%;height:100%;object-fit:cover;object-position:top center;display:block;
+}
 .proof-grid figcaption{
   display:flex;justify-content:space-between;align-items:center;
-  padding:12px 6px 4px;
+  padding:12px 6px 2px;
   font-family:var(--mono);font-size:10px;letter-spacing:.18em;
   text-transform:uppercase;color:var(--cinza);
 }
@@ -406,12 +413,15 @@ footer p{font-size:12.5px;color:rgba(156,156,168,.7);max-width:74ch;margin-top:1
   .hero{
     background-image:url("assets/lukamagic/site-quality/hero-arena-luka-mobile-941.jpg");
     background-position:center top;
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-color:var(--preto);
   }
   .hero::before{
     background:
-      linear-gradient(180deg,rgba(4,4,15,.45) 0%,rgba(4,4,15,.08) 34%,rgba(4,4,15,.55) 62%,rgba(4,4,15,.94) 78%,var(--preto) 100%);
+      linear-gradient(180deg,rgba(4,4,15,.3) 0%,transparent 20%,transparent 40%,rgba(4,4,15,.8) 56%,var(--preto) 70%);
   }
-  .hero-grid{grid-template-columns:1fr;padding:96vw 0 40px;min-height:0}
+  .hero-grid{grid-template-columns:1fr;padding:58vw 0 40px;min-height:0}
   .hero-photo{display:none}
   .slips{grid-template-columns:1fr}
   .community{padding:80px 0;background-position:72% center}
@@ -599,15 +609,15 @@ footer p{font-size:12.5px;color:rgba(156,156,168,.7);max-width:74ch;margin-top:1
       </div>
       <div class="proof-grid stagger">
         <figure>
-          <img src="assets/lukamagic/site-quality/prova-telegram-01-720.jpg" width="720" height="675" loading="lazy" decoding="async" alt="Análise enviada no grupo VIP do Luka Magic com bilhete bet365">
+          <div class="shot"><img src="assets/lukamagic/site-quality/prova-telegram-01-720.jpg" width="720" height="675" loading="lazy" decoding="async" alt="Análise enviada no grupo VIP do Luka Magic com bilhete bet365"></div>
           <figcaption><span>Análise enviada · Telegram</span><i>●</i></figcaption>
         </figure>
         <figure>
-          <img src="assets/lukamagic/site-quality/prova-telegram-02-720.jpg" width="720" height="827" loading="lazy" decoding="async" alt="Bilhete green confirmado no grupo do Luka Magic">
+          <div class="shot"><img src="assets/lukamagic/site-quality/prova-telegram-02-720.jpg" width="720" height="827" loading="lazy" decoding="async" alt="Bilhete green confirmado no grupo do Luka Magic"></div>
           <figcaption><span>Green confirmado</span><i>●</i></figcaption>
         </figure>
         <figure>
-          <img src="assets/lukamagic/site-quality/prova-telegram-03-720.jpg" width="720" height="841" loading="lazy" decoding="async" alt="Registro com um red no meio dos resultados, sem edição">
+          <div class="shot"><img src="assets/lukamagic/site-quality/prova-telegram-03-720.jpg" width="720" height="841" loading="lazy" decoding="async" alt="Registro com um red no meio dos resultados, sem edição"></div>
           <figcaption><span>Red no meio · sem maquiagem</span><i>●</i></figcaption>
         </figure>
       </div>
