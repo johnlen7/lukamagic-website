@@ -275,6 +275,7 @@ h2{
 .community-list li{padding-left:22px;position:relative}
 .community-list li::before{content:"▸";position:absolute;left:0;color:var(--ouro)}
 .community-list b{color:var(--branco);font-weight:700}
+.community-media{display:none}
 
 /* luka */
 .luka-sec{background:var(--grafite);border-block:1px solid var(--linha);overflow:hidden}
@@ -421,11 +422,19 @@ footer p{font-size:12.5px;color:rgba(156,156,168,.7);max-width:74ch;margin-top:1
     background:
       linear-gradient(180deg,rgba(4,4,15,.3) 0%,transparent 18%,transparent 34%,rgba(4,4,15,.85) 50%,var(--preto) 60%);
   }
-  .hero-grid{grid-template-columns:1fr;padding:76vw 0 44px;min-height:0}
+  .hero-grid{grid-template-columns:1fr;padding:82vw 0 44px;min-height:0}
   .hero-photo{display:none}
   .slips{grid-template-columns:1fr}
-  .community{padding:80px 0;background-position:72% center}
-  .community::before{background:linear-gradient(90deg,rgba(4,4,15,.94) 0%,rgba(4,4,15,.86) 60%,rgba(4,4,15,.55) 100%)}
+  /* comunidade mobile: texto em cima (fundo sólido), imagem dos celulares abaixo */
+  .community{padding:72px 0 0;background:var(--preto)}
+  .community::before{display:none}
+  .community-media{
+    display:block;margin-top:38px;height:62vw;max-height:420px;
+    background:url("assets/lukamagic/site-quality/phones-vip-1600.jpg") center 42%/cover no-repeat var(--preto);
+    border-top:1px solid var(--linha);
+    -webkit-mask-image:linear-gradient(180deg,transparent,#000 12%);
+    mask-image:linear-gradient(180deg,transparent,#000 12%);
+  }
   .how{grid-template-columns:1fr 1fr}
   .proof-grid{grid-template-columns:1fr 1fr 1fr}
   .luka{grid-template-columns:1fr;gap:36px}
@@ -637,6 +646,7 @@ footer p{font-size:12.5px;color:rgba(156,156,168,.7);max-width:74ch;margin-top:1
         </ul>
         <a class="btn" href="#planos">Entrar pro lado de dentro</a>
       </div>
+      <div class="community-media reveal zoom" aria-hidden="true"></div>
     </div>
   </section>
 
