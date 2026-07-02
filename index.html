@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luka Magic Black — Análises esportivas profissionais</title>
+<meta name="description" content="Clube VIP de análises esportivas no Telegram: mercado, odd, stake e a tese completa antes de a bola rolar. Futebol, NBA, cartões e escanteios com gestão de banca.">
+<meta property="og:title" content="Luka Magic Black — Análises esportivas profissionais">
+<meta property="og:description" content="Aposta é jogo de quem estuda. Entra pro time que recebe a análise pronta antes de a bola rolar.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700;900&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --preto:#04040F;
+  --grafite:#0C0C1D;
+  --grafite-2:#12002B;
+  --linha:rgba(244,244,246,.1);
+  --linha-forte:rgba(244,244,246,.22);
+  --ouro:#E2A212;
+  --ouro-claro:#F5C33B;
+  --roxo:#D600FF;
+  --roxo-fundo:rgba(122,44,207,.32);
+  --branco:#FFFFFF;
+  --cinza:#989EA5;
+  --green:#3DDC84;
+  --red:#FF5C5C;
+  --display:"Archivo Black",Archivo,Impact,sans-serif;
+  --sans:"Archivo",ui-sans-serif,system-ui,Arial,sans-serif;
+  --mono:"Spline Sans Mono",ui-monospace,"Cascadia Mono",monospace;
+  --max:1180px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{
+  background:var(--preto);
+  color:var(--branco);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{width:min(var(--max),calc(100% - 44px));margin-inline:auto}
+
+/* ---------- barra de risco ---------- */
+.riskbar{
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+  text-align:center;padding:9px 16px;
+  color:var(--cinza);background:#000;
+  border-bottom:1px solid var(--linha);
+}
+
+/* ---------- nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:40;
+  background:rgba(10,10,12,.9);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--linha);
+}
+.nav .inner{height:70px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .name{
+  font-family:var(--display);font-weight:400;
+  font-size:19px;letter-spacing:.02em;text-transform:uppercase;
+}
+.brand .name b{color:var(--ouro);font-weight:400}
+.brand .tag{
+  font-family:var(--mono);font-size:9px;letter-spacing:.3em;
+  color:var(--roxo);border:1px solid rgba(139,92,246,.5);
+  padding:3px 6px 2px 9px;border-radius:3px;
+}
+.links{display:flex;gap:26px;font-size:13.5px;font-weight:500;color:var(--cinza)}
+.links a:hover{color:var(--branco)}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--sans);font-weight:900;
+  font-size:15px;letter-spacing:.08em;text-transform:uppercase;
+  padding:16px 30px;border:0;cursor:pointer;
+  background:var(--ouro);color:#0B0800;
+  clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);
+  transition:background .18s ease,transform .18s ease;
+}
+.btn:hover{background:var(--ouro-claro);transform:translateY(-1px)}
+.btn.ghost{
+  background:transparent;color:var(--branco);
+  box-shadow:inset 0 0 0 1px var(--linha-forte);
+}
+.btn.ghost:hover{box-shadow:inset 0 0 0 1px var(--ouro);color:var(--ouro-claro);background:transparent}
+.nav .btn{font-size:12px;padding:12px 20px}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;overflow:hidden;border-bottom:1px solid var(--linha);
+  background:url("assets/lukamagic/site-quality/hero-arena-luka-1672.jpg") center top/cover no-repeat var(--preto);
+}
+.hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(4,4,15,.94) 0%,rgba(4,4,15,.78) 38%,rgba(4,4,15,.12) 68%,rgba(4,4,15,.25) 100%),
+    linear-gradient(180deg,rgba(4,4,15,.55) 0%,transparent 22%,transparent 72%,var(--preto) 100%);
+}
+.hero-grid{
+  position:relative;display:grid;grid-template-columns:1.05fr .95fr;
+  gap:40px;align-items:center;padding:96px 0 72px;min-height:min(720px,84vh);
+}
+.kicker{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--ouro);
+}
+.kicker::before{content:"";width:34px;height:2px;background:var(--ouro)}
+h1{
+  font-family:var(--display);font-weight:400;
+  font-size:clamp(38px,5vw,68px);line-height:1.02;
+  letter-spacing:.005em;text-transform:uppercase;
+  margin:22px 0 0;
+}
+h1 .gold{color:var(--ouro)}
+.hero .lead{margin-top:22px;max-width:52ch;color:var(--cinza);font-size:17px}
+.hero .lead b{color:var(--branco);font-weight:600}
+.hero .actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:32px}
+.hero .fineprint{
+  margin:20px 0 42px;font-family:var(--mono);
+  font-size:11px;letter-spacing:.08em;color:rgba(156,156,168,.75);
+}
+.hero-photo{position:relative;align-self:end;min-height:100%}
+.hero-photo .stamp{
+  position:absolute;right:0;bottom:8px;
+  display:flex;flex-direction:column;gap:6px;align-items:flex-end;
+}
+.hero-photo .stamp span{
+  font-family:var(--display);font-weight:400;
+  font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  background:rgba(4,4,15,.82);border:1px solid var(--linha-forte);
+  padding:8px 14px;backdrop-filter:blur(4px);
+}
+.hero-photo .stamp span.hl{background:var(--ouro);color:#0B0800;border-color:var(--ouro)}
+
+/* ---------- ticker ---------- */
+.ticker{
+  border-bottom:1px solid var(--linha);
+  background:var(--grafite);overflow:hidden;
+  padding:13px 0;position:relative;
+}
+.ticker .track{
+  display:flex;gap:44px;width:max-content;
+  font-family:var(--display);font-weight:400;
+  font-size:13px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--cinza);white-space:nowrap;
+  animation:tick 26s linear infinite;
+}
+.ticker .track i{font-style:italic;color:var(--ouro);margin-right:8px}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ---------- seções ---------- */
+section{padding:92px 0}
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:48px}
+.sec-head .txt{max-width:640px}
+.sec-head .kicker{color:var(--roxo)}
+.sec-head .kicker::before{background:var(--roxo)}
+h2{
+  font-family:var(--display);font-weight:400;
+  font-size:clamp(28px,3.6vw,44px);line-height:1.05;
+  text-transform:uppercase;margin-top:14px;
+}
+.sec-head p{margin-top:14px;color:var(--cinza)}
+
+/* boletim do dia (assinatura) */
+.slips{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.slip{
+  background:var(--grafite);border:1px solid var(--linha);
+  position:relative;
+}
+.slip::before,.slip::after{
+  content:"";position:absolute;width:16px;height:16px;border-radius:50%;
+  background:var(--preto);border:1px solid var(--linha);top:58px;
+}
+.slip::before{left:-9px}
+.slip::after{right:-9px}
+.slip .top{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 22px;border-bottom:1px dashed var(--linha-forte);
+}
+.slip .league{
+  font-family:var(--display);font-weight:400;
+  font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ouro);
+}
+.slip .status{
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;
+  padding:5px 9px 4px 11px;text-transform:uppercase;
+}
+.slip .status.g{color:var(--green);border:1px solid rgba(61,220,132,.4)}
+.slip .status.r{color:var(--red);border:1px solid rgba(255,92,92,.4)}
+.slip .status.live{color:var(--roxo);border:1px solid rgba(139,92,246,.5)}
+.slip .body{padding:20px 22px 24px}
+.slip .match{font-weight:600;font-size:16.5px}
+.slip .market{color:var(--cinza);font-size:14px;margin-top:4px}
+.slip .nums{
+  display:flex;gap:0;margin-top:18px;border:1px solid var(--linha);
+  font-family:var(--mono);
+}
+.slip .nums div{flex:1;padding:12px 14px;border-right:1px solid var(--linha)}
+.slip .nums div:last-child{border-right:0}
+.slip .nums span{display:block;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--cinza)}
+.slip .nums b{font-size:18px;font-weight:600;color:var(--branco)}
+.slip .nums b.g{color:var(--green)}
+.slip .nums b.r{color:var(--red)}
+.slip .thesis{
+  margin-top:16px;padding-left:14px;border-left:2px solid var(--ouro);
+  font-size:13.5px;color:var(--cinza);
+}
+.slips-note{margin-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:rgba(156,156,168,.7)}
+
+/* como funciona */
+.how-sec{background:var(--grafite);border-block:1px solid var(--linha)}
+.how{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.how article{
+  background:var(--preto);border:1px solid var(--linha);
+  padding:26px 24px 30px;position:relative;
+}
+.how .num{
+  font-family:var(--display);font-weight:400;
+  font-size:38px;line-height:1;color:transparent;
+  -webkit-text-stroke:1.5px var(--roxo);
+}
+.how h3{
+  font-family:var(--display);font-weight:400;
+  font-size:17px;letter-spacing:.03em;text-transform:uppercase;
+  margin:14px 0 8px;
+}
+.how p{color:var(--cinza);font-size:14.5px}
+
+/* prova */
+.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.proof-grid figure{
+  background:var(--grafite);border:1px solid var(--linha);padding:10px;
+}
+.proof-grid img{width:100%;height:auto}
+.proof-grid figcaption{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 6px 4px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--cinza);
+}
+.proof-grid figcaption i{font-style:normal;color:var(--green)}
+/* comunidade (banda com phones-vip de fundo) */
+.community{
+  position:relative;overflow:hidden;
+  border-block:1px solid var(--linha);
+  background:url("assets/lukamagic/site-quality/phones-vip-1600.jpg") right center/cover no-repeat var(--preto);
+  padding:110px 0;
+}
+.community::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,rgba(4,4,15,.96) 0%,rgba(4,4,15,.85) 42%,rgba(4,4,15,.25) 72%,rgba(4,4,15,.15) 100%);
+}
+.community .wrap{position:relative}
+.community-txt{max-width:560px}
+.community-txt h2 .gold{color:var(--ouro)}
+.community-txt p{margin-top:16px;color:var(--cinza)}
+.community-txt p b{color:var(--branco);font-weight:600}
+.community-list{list-style:none;margin:22px 0 30px;display:grid;gap:10px;font-size:14.5px;color:var(--cinza)}
+.community-list li{padding-left:22px;position:relative}
+.community-list li::before{content:"▸";position:absolute;left:0;color:var(--ouro)}
+.community-list b{color:var(--branco);font-weight:700}
+
+/* luka */
+.luka-sec{background:var(--grafite);border-block:1px solid var(--linha);overflow:hidden}
+.luka{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:center}
+.luka .photo{position:relative;border:1px solid var(--linha);background:var(--preto)}
+.luka .photo img{width:100%;height:auto;aspect-ratio:3/3.3;object-fit:cover;object-position:top}
+.luka .photo .badge{
+  position:absolute;left:14px;bottom:14px;
+  font-family:var(--display);font-weight:400;
+  font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--ouro);color:#0B0800;padding:7px 14px;
+}
+.luka h2 .gold{color:var(--ouro)}
+.luka .bio{margin-top:18px;color:var(--cinza)}
+.luka .bio p + p{margin-top:12px}
+.luka .bio b{color:var(--branco);font-weight:600}
+.statbar{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:32px}
+.statbar div{border-left:2px solid var(--ouro);padding:4px 0 4px 16px}
+.statbar b{
+  display:block;font-family:var(--display);font-weight:400;
+  font-size:23px;line-height:1;text-transform:uppercase;
+}
+.statbar span{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--cinza)}
+
+/* planos */
+.plans{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;align-items:stretch}
+.plan{
+  background:var(--grafite);border:1px solid var(--linha);
+  padding:28px 26px 30px;display:flex;flex-direction:column;position:relative;
+}
+.plan.featured{border-color:var(--ouro);background:linear-gradient(180deg,rgba(247,179,43,.08),var(--grafite) 40%)}
+.plan.featured::before{
+  content:"MAIS ESCOLHIDO";position:absolute;top:-13px;left:22px;
+  font-family:var(--display);font-weight:400;
+  font-size:11px;letter-spacing:.1em;
+  background:var(--ouro);color:#0B0800;padding:5px 12px;
+}
+.plan .tag{
+  font-family:var(--mono);font-size:10px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--roxo);
+}
+.plan h3{
+  font-family:var(--display);font-weight:400;
+  font-size:21px;letter-spacing:.02em;text-transform:uppercase;
+  margin:12px 0 4px;
+}
+.plan .for{font-size:13.5px;color:var(--cinza);min-height:42px}
+.plan .price{display:flex;align-items:baseline;gap:8px;margin:20px 0 2px}
+.plan .price b{
+  font-family:var(--display);font-weight:400;
+  font-size:40px;line-height:1;letter-spacing:.01em;
+}
+.plan .price span{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--cinza)}
+.plan .alt{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:rgba(156,156,168,.7);min-height:18px}
+.plan ul{list-style:none;margin:20px 0 28px;display:grid;gap:10px;font-size:14px;color:var(--cinza)}
+.plan li{padding-left:22px;position:relative}
+.plan li::before{content:"▸";position:absolute;left:0;color:var(--ouro)}
+.plan .btn{margin-top:auto;width:100%}
+.plans-note{margin-top:22px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:rgba(156,156,168,.7)}
+
+/* faq */
+.faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start}
+.faq-list details{border-bottom:1px solid var(--linha)}
+.faq-list details:first-child{border-top:1px solid var(--linha)}
+.faq-list summary{
+  cursor:pointer;list-style:none;position:relative;
+  font-family:var(--display);font-weight:400;
+  font-size:16px;letter-spacing:.03em;text-transform:uppercase;
+  padding:22px 44px 22px 0;line-height:1.4;
+}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary::after{
+  content:"+";position:absolute;right:2px;top:50%;transform:translateY(-52%);
+  font-size:28px;color:var(--ouro);transition:transform .2s ease;
+}
+.faq-list details[open] summary::after{transform:translateY(-52%) rotate(45deg)}
+.faq-list details p{color:var(--cinza);padding:0 0 24px;max-width:62ch}
+
+/* cta final */
+.final{
+  position:relative;text-align:center;padding:130px 0;overflow:hidden;
+  border-top:1px solid var(--linha);
+  background:url("assets/lukamagic/site-quality/cta-court-phones-1672.jpg") center/cover no-repeat var(--preto);
+}
+.final::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,var(--preto) 0%,rgba(4,4,15,.72) 30%,rgba(4,4,15,.72) 70%,var(--preto) 100%);
+}
+.final .wrap{position:relative}
+.final h2{font-size:clamp(32px,4.4vw,58px);max-width:18ch;margin-inline:auto}
+.final h2 .gold{color:var(--ouro)}
+.final p{max-width:52ch;margin:20px auto 0;color:var(--cinza)}
+.final .actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:36px}
+
+/* footer */
+footer{border-top:1px solid var(--linha);padding:40px 0 110px;background:#000}
+footer .cols{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:baseline}
+footer .brandline{font-family:var(--display);font-weight:400;font-size:16px;text-transform:uppercase}
+footer .brandline b{color:var(--ouro)}
+footer nav{display:flex;gap:22px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--cinza)}
+footer p{font-size:12.5px;color:rgba(156,156,168,.7);max-width:74ch;margin-top:18px}
+
+/* sticky mobile */
+.sticky-mobile{
+  display:none;position:fixed;z-index:60;left:14px;right:14px;bottom:14px;
+  opacity:0;transform:translateY(120%);pointer-events:none;
+  transition:opacity .35s ease,transform .35s cubic-bezier(.16,1,.3,1);
+}
+.sticky-mobile.show{opacity:1;transform:none;pointer-events:auto}
+.sticky-mobile .btn{width:100%;box-shadow:0 18px 40px rgba(0,0,0,.55)}
+@media (prefers-reduced-motion:reduce){.sticky-mobile{transition:none}}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.from-left{transform:translateX(-52px)}
+.reveal.from-right{transform:translateX(52px)}
+.reveal.zoom{transform:scale(.92)}
+.reveal.in{opacity:1;transform:none}
+/* stagger: filhos entram em sequência quando o container ganha .in */
+.stagger>*{opacity:0;transform:translateY(28px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
+.stagger.in>*{opacity:1;transform:none}
+.stagger.in>*:nth-child(1){transition-delay:.05s}
+.stagger.in>*:nth-child(2){transition-delay:.15s}
+.stagger.in>*:nth-child(3){transition-delay:.25s}
+.stagger.in>*:nth-child(4){transition-delay:.35s}
+@media (prefers-reduced-motion:reduce){
+  .reveal,.stagger>*{opacity:1;transform:none;transition:none}
+  .reveal.from-left,.reveal.from-right,.reveal.zoom{transform:none}
+  .ticker .track{animation:none}
+  html{scroll-behavior:auto}
+}
+
+/* responsivo */
+@media(max-width:1020px){
+  .links{display:none}
+  .hero{
+    background-image:url("assets/lukamagic/site-quality/hero-arena-luka-mobile-941.jpg");
+    background-position:center top;
+  }
+  .hero::before{
+    background:
+      linear-gradient(180deg,rgba(4,4,15,.45) 0%,rgba(4,4,15,.08) 34%,rgba(4,4,15,.55) 62%,rgba(4,4,15,.94) 78%,var(--preto) 100%);
+  }
+  .hero-grid{grid-template-columns:1fr;padding:96vw 0 40px;min-height:0}
+  .hero-photo{display:none}
+  .slips{grid-template-columns:1fr}
+  .community{padding:80px 0;background-position:72% center}
+  .community::before{background:linear-gradient(90deg,rgba(4,4,15,.94) 0%,rgba(4,4,15,.86) 60%,rgba(4,4,15,.55) 100%)}
+  .how{grid-template-columns:1fr 1fr}
+  .proof-grid{grid-template-columns:1fr 1fr 1fr}
+  .luka{grid-template-columns:1fr;gap:36px}
+  .plans{grid-template-columns:1fr 1fr;row-gap:28px}
+  .faq-grid{grid-template-columns:1fr;gap:28px}
+  .sec-head{display:block}
+  /* tablet/mobile: reveals horizontais viram vertical (sem empurrar layout) */
+  .reveal.from-left,.reveal.from-right{transform:translateY(26px)}
+  .reveal.from-left.in,.reveal.from-right.in{transform:none}
+}
+@media(max-width:640px){
+  section{padding:68px 0}
+  .nav .inner{height:60px}
+  .nav .btn{display:none}
+  .brand .name{font-size:16px}
+  h1{font-size:clamp(28px,8.4vw,40px)}
+  .how{grid-template-columns:1fr}
+  .proof-grid{grid-template-columns:1fr}
+  .plans{grid-template-columns:1fr}
+  .statbar{grid-template-columns:1fr 1fr;gap:18px}
+  .sticky-mobile{display:block}
+  footer{padding-bottom:130px}
+}
+@media(max-width:430px){
+  .brand .name{font-size:15px}
+  .brand .tag{font-size:8px;letter-spacing:.2em;padding:3px 5px 2px 7px}
+  .riskbar{font-size:10px;letter-spacing:.02em}
+}
+</style>
+</head>
+<body>
+
+<div class="riskbar">18+ · Apostas envolvem risco financeiro · Resultados passados não garantem resultados futuros · Jogue com responsabilidade</div>
+
+<nav class="nav">
+  <div class="wrap inner">
+    <a class="brand" href="#top">
+      <span class="name">Luka <b>Magic</b></span>
+      <span class="tag">BLACK</span>
+    </a>
+    <div class="links">
+      <a href="#boletim">Boletim</a>
+      <a href="#como">Como funciona</a>
+      <a href="#resultados">Resultados</a>
+      <a href="#luka">O Luka</a>
+      <a href="#planos">Planos</a>
+    </div>
+    <a class="btn" href="#planos">Quero ser VIP</a>
+  </div>
+</nav>
+
+<main id="top">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="kicker">Análises esportivas no Telegram</span>
+        <h1>Aposta é jogo <span class="gold">de quem estuda.</span></h1>
+        <p class="lead">Entra pro time que recebe a análise pronta: <b>mercado, odd, stake e a tese completa</b> antes de a bola rolar. Futebol, NBA, cartões e escanteios — todo dia, com gestão de banca junto.</p>
+        <div class="actions">
+          <a class="btn" href="#planos">Quero ser VIP</a>
+          <a class="btn ghost" href="#boletim">Ver boletim do dia</a>
+        </div>
+        <p class="fineprint">Sem promessa de lucro. Método, critério e gestão — o resto é jogo.</p>
+      </div>
+      <div class="hero-photo" aria-hidden="true">
+        <div class="stamp">
+          <span class="hl">+7 temporadas de operação</span>
+          <span>Especialista em odds altas</span>
+        </div>
+      </div>
+    </div>
+    <div class="ticker" aria-hidden="true">
+      <div class="track">
+        <span><i>●</i>Futebol</span><span><i>●</i>NBA</span><span><i>●</i>Cartões</span><span><i>●</i>Escanteios</span><span><i>●</i>Gestão de banca</span><span><i>●</i>Análises diárias</span><span><i>●</i>Suporte oficial</span>
+        <span><i>●</i>Futebol</span><span><i>●</i>NBA</span><span><i>●</i>Cartões</span><span><i>●</i>Escanteios</span><span><i>●</i>Gestão de banca</span><span><i>●</i>Análises diárias</span><span><i>●</i>Suporte oficial</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- BOLETIM -->
+  <section id="boletim">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="txt reveal from-left">
+          <span class="kicker">Boletim do dia</span>
+          <h2>É assim que a análise chega no grupo.</h2>
+          <p>Cada entrada vem completa: jogo, mercado, odd indicada, stake em unidades e o porquê da aposta. Nada de bilhete seco.</p>
+        </div>
+        <a class="btn ghost reveal from-right" href="#planos">Receber no Telegram</a>
+      </div>
+      <div class="slips stagger">
+        <article class="slip">
+          <div class="top"><span class="league">Futebol · Brasileirão</span><span class="status g">Green</span></div>
+          <div class="body">
+            <p class="match">Clássico regional · rodada 14</p>
+            <p class="market">Over 4.5 cartões</p>
+            <div class="nums">
+              <div><span>Odd</span><b>1.86</b></div>
+              <div><span>Unidades</span><b>1,0</b></div>
+              <div><span>Saldo</span><b class="g">+0,86</b></div>
+            </div>
+            <p class="thesis">Árbitro com média alta de cartões + rivalidade quente. Linha abriu abaixo do esperado.</p>
+          </div>
+        </article>
+        <article class="slip">
+          <div class="top"><span class="league">NBA · Player props</span><span class="status r">Red</span></div>
+          <div class="body">
+            <p class="match">Linha de pontos · ala titular</p>
+            <p class="market">Over pontos do jogador</p>
+            <div class="nums">
+              <div><span>Odd</span><b>2.05</b></div>
+              <div><span>Unidades</span><b>0,75</b></div>
+              <div><span>Saldo</span><b class="r">−0,75</b></div>
+            </div>
+            <p class="thesis">Uso projetado acima da linha. Red faz parte — entrada reduzida segurou o dano.</p>
+          </div>
+        </article>
+        <article class="slip">
+          <div class="top"><span class="league">Futebol · Europa</span><span class="status live">Hoje</span></div>
+          <div class="body">
+            <p class="match">Volume ofensivo × defesa instável</p>
+            <p class="market">Over 2.5 gols</p>
+            <div class="nums">
+              <div><span>Odd</span><b>1.92</b></div>
+              <div><span>Unidades</span><b>1,0</b></div>
+              <div><span>Limite</span><b>15h45</b></div>
+            </div>
+            <p class="thesis">Dois times pressionando por vaga, defesas cedendo chance clara a cada 20 minutos.</p>
+          </div>
+        </article>
+      </div>
+      <p class="slips-note">1 unidade = valor fixo que você define pra sua banca (ex.: R$50). Entradas demonstrativas — substituir por registro real antes de publicar. Green e red fazem parte: o que importa é o saldo de unidades no fim do mês.</p>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section id="como" class="how-sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="txt reveal from-left">
+          <span class="kicker">Como funciona</span>
+          <h2>Do pagamento ao primeiro green em 4 passos.</h2>
+        </div>
+      </div>
+      <div class="how stagger">
+        <article>
+          <span class="num">01</span>
+          <h3>Escolhe o plano</h3>
+          <p>Um grupo específico, só NBA, ou acesso completo. Checkout rápido e seguro.</p>
+        </article>
+        <article>
+          <span class="num">02</span>
+          <h3>Entra no grupo</h3>
+          <p>Suporte oficial libera seu acesso ao Telegram fechado assim que o pagamento confirma.</p>
+        </article>
+        <article>
+          <span class="num">03</span>
+          <h3>Recebe a análise</h3>
+          <p>Mercado, odd, stake, tese e horário-limite. Você decide se entra — com informação.</p>
+        </article>
+        <article>
+          <span class="num">04</span>
+          <h3>Gerencia a banca</h3>
+          <p>Tudo em unidades, no ritmo da sua banca. Disciplina é o que separa aposta de cassino.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTADOS -->
+  <section id="resultados">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="txt reveal from-left">
+          <span class="kicker">Resultados</span>
+          <h2>Print real, direto do grupo.</h2>
+          <p>Registro do que acontece dentro do VIP: análises enviadas, resultados marcados e o retorno de quem acompanha.</p>
+        </div>
+      </div>
+      <div class="proof-grid stagger">
+        <figure>
+          <img src="assets/lukamagic/site-quality/pt51-640.jpg" width="640" height="1190" loading="lazy" decoding="async" alt="Print de resultados do grupo Luka Magic no Telegram">
+          <figcaption><span>Resultados · grupo VIP</span><i>●</i></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/lukamagic/site-quality/pt53-640.jpg" width="640" height="1199" loading="lazy" decoding="async" alt="Print de análises enviadas no grupo Luka Magic">
+          <figcaption><span>Análise enviada · Telegram</span><i>●</i></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/lukamagic/site-quality/pt55-640.jpg" width="640" height="1199" loading="lazy" decoding="async" alt="Print de feedback de membros do grupo Luka Magic">
+          <figcaption><span>Feedback dos membros</span><i>●</i></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMUNIDADE -->
+  <section class="community" aria-label="Comunidade Luka Magic">
+    <div class="wrap">
+      <div class="community-txt reveal from-left">
+        <span class="kicker">Comunidade</span>
+        <h2>Milhares acompanham de fora.<br>O jogo de verdade rola <span class="gold">dentro do VIP.</span></h2>
+        <p>No Instagram você vê o resultado depois. No grupo fechado, a análise chega <b>antes de a bola rolar</b> — com odd, stake e horário-limite pra entrar junto.</p>
+        <ul class="community-list">
+          <li><b>Fora:</b> print de green no story, depois do jogo</li>
+          <li><b>Dentro:</b> a entrada completa, horas antes</li>
+        </ul>
+        <a class="btn" href="#planos">Entrar pro lado de dentro</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- LUKA -->
+  <section id="luka" class="luka-sec">
+    <div class="wrap luka">
+      <figure class="photo reveal from-left">
+        <img src="assets/lukamagic/site-quality/portrait-card-900.jpg" width="900" height="1613" loading="lazy" decoding="async" alt="Lucas Zailo, o Luka Magic">
+        <span class="badge">Lucas “Luka Magic”</span>
+      </figure>
+      <div>
+        <div class="reveal from-right">
+          <span class="kicker">O analista</span>
+          <h2>Quem manda a análise <span class="gold">aposta junto.</span></h2>
+          <div class="bio">
+            <p>O Luka construiu o nome estudando os mercados que a maioria ignora: <b>cartões, escanteios e linhas de jogadores na NBA</b>. São mercados menos eficientes — é onde a análise encontra odd pagando mais do que deveria.</p>
+            <p>No grupo, você recebe essa leitura pronta, com stake e gestão junto. Sem papo de ficar rico: <b>método aplicado todo dia, registrado em unidades</b>, na transparência do green e do red.</p>
+          </div>
+        </div>
+        <div class="statbar reveal stagger">
+          <div><b>+5.400</b><span>unidades positivas desde 2020</span></div>
+          <div><b>7+</b><span>temporadas</span></div>
+          <div><b>4</b><span>mercados</span></div>
+          <div><b>Diário</b><span>ritmo de envio</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANOS -->
+  <section id="planos">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="txt reveal from-left">
+          <span class="kicker">Planos</span>
+          <h2>Escolhe teu jogo. Entra pro time.</h2>
+          <p>Todos os planos incluem análises completas com tese, stake em unidades e suporte oficial no Telegram.</p>
+        </div>
+      </div>
+      <div class="plans stagger">
+        <article class="plan">
+          <span class="tag">Entrada</span>
+          <h3>Um Grupo</h3>
+          <p class="for">Escolhe um mercado — futebol, cartões ou escanteios — e acompanha a fundo.</p>
+          <div class="price"><b>R$99</b><span>/mês</span></div>
+          <p class="alt"></p>
+          <ul>
+            <li>1 grupo VIP à escolha</li>
+            <li>Análises diárias com tese</li>
+            <li>Gestão por unidades</li>
+            <li>Suporte oficial</li>
+          </ul>
+          <a class="btn ghost" href="#">Escolher grupo</a>
+        </article>
+        <article class="plan">
+          <span class="tag">Especialidade</span>
+          <h3>NBA</h3>
+          <p class="for">Só basquete: player props, minutos, lesões e contexto de temporada.</p>
+          <div class="price"><b>R$99</b><span>/mês</span></div>
+          <p class="alt"></p>
+          <ul>
+            <li>Grupo NBA dedicado</li>
+            <li>Linhas de jogadores</li>
+            <li>Leitura de rotação e lesão</li>
+            <li>Suporte oficial</li>
+          </ul>
+          <a class="btn ghost" href="#">Entrar no NBA</a>
+        </article>
+        <article class="plan featured">
+          <span class="tag">Completo</span>
+          <h3>Full Access</h3>
+          <p class="for">Todos os grupos de futebol, cartões, escanteios e loterias, com aulas.</p>
+          <div class="price"><b>R$200</b><span>/mês</span></div>
+          <p class="alt">exceto NBA</p>
+          <ul>
+            <li>Todos os grupos VIP</li>
+            <li>Maior volume de análises</li>
+            <li>Aulas de gestão e método</li>
+            <li>Comunidade + suporte</li>
+          </ul>
+          <a class="btn" href="#">Quero ser VIP</a>
+        </article>
+        <article class="plan">
+          <span class="tag">Temporada</span>
+          <h3>Anual</h3>
+          <p class="for">O acesso completo pela temporada inteira, com o menor custo mensal.</p>
+          <div class="price"><b>R$500</b><span>à vista</span></div>
+          <p class="alt">ou 12× de R$50</p>
+          <ul>
+            <li>12 meses de acesso</li>
+            <li>Todos os grupos, exceto NBA</li>
+            <li>Aulas e materiais</li>
+            <li>Prioridade no suporte</li>
+          </ul>
+          <a class="btn ghost" href="#">Garantir temporada</a>
+        </article>
+      </div>
+      <p class="plans-note">Pagamento em checkout externo seguro. Acesso liberado pelo suporte oficial após confirmação. Cancela quando quiser.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap faq-grid">
+      <div class="reveal from-left">
+        <span class="kicker">Perguntas</span>
+        <h2>Sem letra miúda.</h2>
+        <p style="margin-top:14px;color:var(--cinza)">O que você precisa saber antes de entrar — respondido direto.</p>
+      </div>
+      <div class="faq-list reveal from-right">
+        <details open>
+          <summary>O grupo garante lucro?</summary>
+          <p>Não — e foge de quem garante. Aposta envolve risco e variância. O que o VIP entrega é análise com critério, stake controlada e registro transparente, pra você decidir com informação.</p>
+        </details>
+        <details>
+          <summary>Tenho banca pequena. Vale a pena?</summary>
+          <p>Vale, desde que você aposte só o que não faz falta. Toda entrada indica a stake em unidades — a unidade é proporcional à sua banca, seja ela de R$100 ou R$10.000.</p>
+        </details>
+        <details>
+          <summary>Como recebo as análises?</summary>
+          <p>Pagou, o suporte oficial libera teu acesso ao grupo fechado no Telegram. As entradas chegam com mercado, odd, stake, tese e horário-limite.</p>
+        </details>
+        <details>
+          <summary>Posso cancelar quando quiser?</summary>
+          <p>Pode. O plano mensal não tem fidelidade — cancelando, o acesso vale até o fim do período já pago.</p>
+        </details>
+        <details>
+          <summary>Sou iniciante. Vou entender?</summary>
+          <p>Vai. Toda análise explica o porquê, e o plano completo inclui aulas de gestão de banca e leitura de mercado. Começa devagar, com stake mínima.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="final">
+    <div class="wrap">
+      <h2 class="reveal">A próxima análise sai amanhã. <span class="gold">Com ou sem você.</span></h2>
+      <p class="reveal">Escolhe o plano, confirma o pagamento e recebe o acesso pelo suporte oficial em minutos.</p>
+      <div class="actions reveal stagger">
+        <a class="btn" href="#planos">Quero ser VIP</a>
+        <a class="btn ghost" href="#faq">Tirar dúvidas</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div class="brandline">Luka <b>Magic</b> Black</div>
+      <nav>
+        <a href="#">Termos</a>
+        <a href="#">Privacidade</a>
+        <a href="#">Jogo responsável</a>
+        <a href="#">Suporte</a>
+      </nav>
+    </div>
+    <p>Conteúdo destinado a maiores de 18 anos. Apostas esportivas envolvem risco financeiro e podem gerar perdas. Nenhum resultado passado garante resultado futuro. Jogue com responsabilidade. Protótipo de redesign — adicionar termos, política de privacidade, reembolso e links reais de checkout antes de produção.</p>
+  </div>
+</footer>
+
+<div class="sticky-mobile"><a class="btn" href="#planos">Quero ser VIP</a></div>
+
+<script>
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.reveal, .stagger');
+  if (reduced || !('IntersectionObserver' in window)) {
+    els.forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: .12 });
+    els.forEach(function(el){ io.observe(el); });
+  }
+
+  // botão sticky mobile só aparece depois que o CTA do hero sai da tela
+  var sticky = document.querySelector('.sticky-mobile');
+  var heroCta = document.querySelector('.hero .actions');
+  if (sticky && heroCta && 'IntersectionObserver' in window) {
+    var sio = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        sticky.classList.toggle('show', !e.isIntersecting);
+      });
+    }, { threshold: 0 });
+    sio.observe(heroCta);
+  } else if (sticky) {
+    sticky.classList.add('show');
+  }
+})();
+</script>
+
+</body>
+</html>
