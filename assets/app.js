@@ -12,11 +12,14 @@
   if (reduced || !('IntersectionObserver' in window)) {
     els.forEach(function(el){ el.classList.add('in'); });
   } else {
+    // rootMargin negativo embaixo: só dispara quando o elemento sobe ~18% na
+    // viewport (não na borda de baixo). No mobile isso evita a animação rodar
+    // enquanto a seção ainda está fora do foco — dá pra ver ela acontecer.
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(e){
         if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
       });
-    }, { threshold: .12 });
+    }, { threshold: .1, rootMargin: '0px 0px -18% 0px' });
     els.forEach(function(el){ io.observe(el); });
   }
 
