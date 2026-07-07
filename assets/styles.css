@@ -579,9 +579,14 @@ footer p{font-size:12.5px;color:rgba(156,156,168,.7);max-width:74ch;margin-top:1
   .plans{grid-template-columns:1fr 1fr;row-gap:28px}
   .faq-grid{grid-template-columns:1fr;gap:28px}
   .sec-head{display:block}
-  /* tablet/mobile: reveals horizontais viram vertical (sem empurrar layout) */
+  /* tablet/mobile: por padrão reveals horizontais viram vertical (sem empurrar layout) */
   .reveal.from-left,.reveal.from-right{transform:translateY(26px)}
   .reveal.from-left.in,.reveal.from-right.in{transform:none}
+  /* principais (.mob-x): mantêm a entrada lateral no mobile, com offset menor.
+     Seguro contra scroll horizontal — html/body têm overflow-x:hidden. */
+  .reveal.mob-x.from-left{transform:translateX(-30px)}
+  .reveal.mob-x.from-right{transform:translateX(30px)}
+  .reveal.mob-x.in{transform:none}
 }
 @media(max-width:640px){
   :root{--section-pad:68px}
