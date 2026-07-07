@@ -53,6 +53,62 @@ a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 .wrap{width:min(var(--max),calc(100% - 44px));margin-inline:auto}
 
+/* ---------- 2b. preloader (carregamento hi-tech / central de análise) ---------- */
+body.pre-lock{overflow:hidden}
+.preloader{
+  position:fixed;inset:0;z-index:200;
+  display:grid;place-items:center;
+  background-color:var(--preto);
+  background-image:
+    linear-gradient(rgba(226,162,18,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(226,162,18,.05) 1px,transparent 1px);
+  background-size:46px 46px;
+  transition:opacity .6s ease,visibility .6s ease;
+}
+/* scanline horizontal varrendo a tela */
+.preloader::after{
+  content:"";position:absolute;left:0;right:0;top:0;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(226,162,18,.7),transparent);
+  animation:pre-scan 2.4s ease-in-out infinite;
+}
+body.pre-done .preloader{opacity:0;visibility:hidden;pointer-events:none}
+.pre-core{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;gap:26px;
+  width:min(360px,80vw);text-align:center;
+}
+.pre-icons{display:flex;gap:22px;font-size:34px;line-height:1}
+.pre-ico{
+  opacity:.3;transform:scale(.85);filter:grayscale(.55);
+  animation:pre-ico 1.6s ease-in-out infinite;
+}
+.pre-ico:nth-child(1){animation-delay:0s}
+.pre-ico:nth-child(2){animation-delay:.2s}
+.pre-ico:nth-child(3){animation-delay:.4s}
+.pre-ico:nth-child(4){animation-delay:.6s}
+.pre-title{
+  font-family:var(--mono);font-size:11px;letter-spacing:.34em;
+  text-transform:uppercase;color:var(--cinza);
+}
+.pre-title b{color:var(--ouro);font-weight:600}
+.pre-bar{position:relative;width:100%;height:2px;background:var(--linha);overflow:hidden}
+.pre-bar::before{
+  content:"";position:absolute;top:0;bottom:0;left:-40%;width:40%;
+  background:linear-gradient(90deg,transparent,var(--ouro),var(--roxo));
+  animation:pre-load 1.1s cubic-bezier(.6,0,.2,1) infinite;
+}
+.pre-pct{font-family:var(--mono);font-size:10px;letter-spacing:.28em;color:rgba(156,156,168,.7)}
+@keyframes pre-ico{
+  0%,100%{opacity:.3;transform:scale(.85);filter:grayscale(.55)}
+  30%{opacity:1;transform:scale(1.14);filter:grayscale(0) drop-shadow(0 0 10px rgba(226,162,18,.55))}
+}
+@keyframes pre-load{0%{left:-40%}100%{left:100%}}
+@keyframes pre-scan{0%{top:0}50%{top:calc(100% - 2px)}100%{top:0}}
+@media (prefers-reduced-motion:reduce){
+  .preloader::after,.pre-ico,.pre-bar::before{animation:none}
+  .pre-ico{opacity:1;transform:none;filter:none}
+}
+
 /* ---------- 3a. barra de risco ---------- */
 .riskbar{
   font-family:var(--mono);font-size:11px;letter-spacing:.06em;

@@ -5,6 +5,48 @@
    borda-highlight). Todos respeitam prefers-reduced-motion / pointer coarse.
    ============================================================================= */
 
+// preloader hi-tech: some no window.load, com tempo minimo de exibicao + fallback
+(function(){
+  var pre = document.querySelector('.preloader');
+  if (!pre) return;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var pct = pre.querySelector('.pre-pct');
+  var body = document.body;
+  body.classList.add('pre-lock');
+
+  var MIN = reduced ? 250 : 900;          // ms minimos com o loader na tela
+  var t0 = Date.now();
+  var done = false, finished = false;
+
+  // contador fake subindo ate ~92% enquanto carrega (sensacao de progresso)
+  var val = 0;
+  function tick(){
+    if (done) return;
+    val += Math.max(0.6, (92 - val) * 0.05);
+    if (val > 92) val = 92;
+    if (pct) pct.textContent = ('0' + Math.floor(val)).slice(-2) + '%';
+    requestAnimationFrame(tick);
+  }
+  if (!reduced) requestAnimationFrame(tick);
+
+  function finish(){
+    if (finished) return;               // load + fallback nao rodam duas vezes
+    finished = true;
+    var wait = Math.max(0, MIN - (Date.now() - t0));
+    setTimeout(function(){
+      done = true;
+      if (pct) pct.textContent = '100%';
+      body.classList.add('pre-done');
+      body.classList.remove('pre-lock');
+      setTimeout(function(){ if (pre && pre.parentNode) pre.parentNode.removeChild(pre); }, 700);
+    }, wait);
+  }
+
+  if (document.readyState === 'complete') finish();
+  else window.addEventListener('load', finish);
+  setTimeout(finish, 5000);             // fallback: nunca trava a pagina
+})();
+
 // reveal-on-scroll + sticky mobile
 (function(){
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
