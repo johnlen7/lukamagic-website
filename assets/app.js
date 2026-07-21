@@ -1,7 +1,7 @@
 /* =============================================================================
    Luka Magic Black — comportamento da página
    IIFEs independentes: reveal-on-scroll, sticky mobile, count-up da statbar,
-   scrollspy do nav, carrossel de provas e efeitos de cursor (retículo +
+   scrollspy do nav, visualização dos prints e efeitos de cursor (retículo +
    borda-highlight). Todos respeitam prefers-reduced-motion / pointer coarse.
    ============================================================================= */
 
@@ -136,66 +136,33 @@
   targets.forEach(function(t){ io.observe(t); });
 })();
 
-// carrossel de provas: marquee lento (dir->esq) + arrastável com o mouse, pausa no hover
+// provas: abre o arquivo original em um dialog acessível, sem filtro nem recorte
 (function(){
-  var vp = document.querySelector('[data-proof]');
-  if (!vp) return;
-  var track = vp.querySelector('.proof-track');
-  if (!track) return;
+  var modal = document.querySelector('[data-proof-modal]');
+  if (!modal) return;
 
-  // duplica os prints pra loop sem emenda
-  Array.prototype.slice.call(track.children).forEach(function(fig){
-    var c = fig.cloneNode(true);
-    c.setAttribute('aria-hidden', 'true');
-    track.appendChild(c);
+  var image = modal.querySelector('[data-proof-modal-img]');
+  var title = modal.querySelector('[data-proof-modal-title]');
+  var triggers = document.querySelectorAll('[data-proof-open]');
+
+  triggers.forEach(function(trigger){
+    trigger.addEventListener('click', function(){
+      var src = trigger.getAttribute('data-proof-src');
+      var label = trigger.getAttribute('data-proof-title') || 'Print original';
+      if (image && src) {
+        image.setAttribute('src', src);
+        image.setAttribute('alt', label + ', exibido inteiro e sem tratamento visual');
+      }
+      if (title) title.textContent = label;
+
+      if (typeof modal.showModal === 'function') modal.showModal();
+      else modal.setAttribute('open', '');
+    });
   });
 
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var half = 0;
-  function measure(){ half = track.scrollWidth / 2; norm(); apply(); }
-  window.addEventListener('resize', measure);
-  window.addEventListener('load', measure);
-  track.querySelectorAll('img').forEach(function(img){ img.addEventListener('load', measure); });
-
-  var offset = 0, paused = false, dragging = false;
-  var speed = 0.4; // px por frame — lento
-  function norm(){
-    if (half <= 0) return;
-    while (offset <= -half) offset += half;   // deu a volta num set: volta ao início (invisível, é duplicado)
-    while (offset > 0) offset -= half;
-  }
-  function apply(){ track.style.transform = 'translateX(' + offset + 'px)'; }
-  measure();
-
-  function loop(){
-    if (!paused && !dragging){ offset -= speed; norm(); apply(); }  // dir -> esq
-    requestAnimationFrame(loop);
-  }
-  if (!reduced) requestAnimationFrame(loop); else apply();
-
-  // pausa quando o mouse está sobre o carrossel (deixa ler o print)
-  vp.addEventListener('pointerenter', function(){ paused = true; });
-  vp.addEventListener('pointerleave', function(){ paused = false; });
-
-  // arrastar pra mover
-  var startX = 0, startOff = 0;
-  vp.addEventListener('pointerdown', function(e){
-    dragging = true; vp.classList.add('dragging');
-    startX = e.clientX; startOff = offset;
-    try{ vp.setPointerCapture(e.pointerId); }catch(_){}
+  modal.addEventListener('click', function(event){
+    if (event.target === modal) modal.close();
   });
-  vp.addEventListener('pointermove', function(e){
-    if (!dragging) return;
-    offset = startOff + (e.clientX - startX);
-    norm(); apply();
-  });
-  function endDrag(e){
-    if (!dragging) return;
-    dragging = false; vp.classList.remove('dragging');
-    try{ vp.releasePointerCapture(e.pointerId); }catch(_){}
-  }
-  vp.addEventListener('pointerup', endDrag);
-  vp.addEventListener('pointercancel', endDrag);
 })();
 
 // efeitos de cursor: retículo + highlight de borda dos cards/galeria
@@ -218,7 +185,7 @@
     }, { passive: true });
     document.addEventListener('pointerleave', function(){ body.classList.add('reticle-hidden'); });
     // "trava" o anel sobre elementos interativos
-    var LOCK = 'a,button,summary,.plan,.proof-grid figure,.how article,input';
+    var LOCK = 'a,button,summary,.plan,.proof-card,.how article,input';
     document.addEventListener('pointerover', function(e){
       if (e.target.closest(LOCK)) body.classList.add('reticle-active');
     });
