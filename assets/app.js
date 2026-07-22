@@ -151,7 +151,7 @@
       var label = trigger.getAttribute('data-proof-title') || 'Print original';
       if (image && src) {
         image.setAttribute('src', src);
-        image.setAttribute('alt', label + ', exibido inteiro e sem tratamento visual');
+        image.setAttribute('alt', label + ', restaurado em alta definição e exibido inteiro');
       }
       if (title) title.textContent = label;
 
