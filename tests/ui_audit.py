@@ -209,6 +209,16 @@ def audit_viewport(page: Page, name: str, output: Path, base_url: str) -> dict:
         page.wait_for_timeout(120)
     page.wait_for_timeout(1_100)
     layout = collect_layout(page)
+    cta_modes = page.evaluate(
+        """() => {
+          const hero = document.querySelector('.hero [data-cta-mobile-persistent]');
+          return {
+            mobile:matchMedia('(max-width:640px)').matches,
+            heroSignal:hero?.classList.contains('cta-signal') || false,
+            heroPersistent:hero?.classList.contains('cta-persistent') || false
+          };
+        }"""
+    )
 
     return {
         "viewport": VIEWPORTS[name],
@@ -219,6 +229,7 @@ def audit_viewport(page: Page, name: str, output: Path, base_url: str) -> dict:
         "pageErrors": page_errors,
         "sections": section_metrics,
         "layout": layout,
+        "ctaModes": cta_modes,
     }
 
 
@@ -296,6 +307,23 @@ def audit_mobile_entry_timing(page: Page, output: Path, base_url: str) -> dict:
         "el => ({scale:getComputedStyle(el).scale,filter:getComputedStyle(el).filter})"
     )
 
+    hero_cta = page.locator(".hero [data-cta-mobile-persistent]")
+    place_at_read_line(".hero [data-cta-mobile-persistent]", .64)
+    page.wait_for_function(
+        "() => document.querySelector('.hero [data-cta-mobile-persistent]')?.classList.contains('cta-persistent')",
+        timeout=3_500,
+    )
+    hero_mobile_persistent = hero_cta.evaluate(
+        """el => ({
+          armed:el.classList.contains('cta-persistent'),
+          animationName:getComputedStyle(el).animationName,
+          animationDuration:getComputedStyle(el).animationDuration
+        })"""
+    )
+    hero_cta.evaluate("el => { el.classList.remove('cta-persistent'); void el.offsetWidth; el.classList.add('cta-persistent'); }")
+    page.wait_for_timeout(440)
+    page.screenshot(path=str(motion_dir / "hero-groups-pulse-mobile.png"))
+
     place_at_read_line(first)
     page.wait_for_timeout(1_050)
     after_first = {"first": opacity(first), "second": opacity(second), "third": opacity(third)}
@@ -346,8 +374,8 @@ def audit_mobile_entry_timing(page: Page, output: Path, base_url: str) -> dict:
           attentionOutsideFeaturedPlans:document.querySelectorAll('.plan:not(.featured) [data-cta-attention]').length,
           featuredIsPersistent:!!document.querySelector('.plan.featured [data-cta-persistent]'),
           finalIsPersistent:!!document.querySelector('.final [data-cta-persistent]'),
-          exploratoryAreShort:[...document.querySelectorAll('.hero [data-cta-attention],.community [data-cta-attention]')]
-            .every(el => !el.hasAttribute('data-cta-persistent'))
+          heroHasMobilePersistentOptIn:!!document.querySelector('.hero [data-cta-mobile-persistent]'),
+          communityRemainsShort:!document.querySelector('.community [data-cta-mobile-persistent],.community [data-cta-persistent]')
         })"""
     )
 
@@ -357,6 +385,7 @@ def audit_mobile_entry_timing(page: Page, output: Path, base_url: str) -> dict:
         "navPersistent": nav_persistent,
         "navPulseStyle": nav_pulse_style,
         "navRestStyle": nav_rest_style,
+        "heroMobilePersistent": hero_mobile_persistent,
         "ctaSignalArmed": cta_signal,
         "ctaPeakStyle": cta_peak_style,
         "fullAccessPersistent": full_access_persistent,

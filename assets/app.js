@@ -175,6 +175,7 @@ var LUKA = (function(){
 (function(){
   var buttons = document.querySelectorAll('[data-cta-attention]');
   if (!buttons.length || LUKA.reduced) return;
+  var mobile = window.matchMedia('(max-width:640px)').matches;
 
   function arm(button){
     var attempts = 0;
@@ -187,7 +188,9 @@ var LUKA = (function(){
         node = node.parentElement;
       }
       if (opacity >= .94) {
-        var effect = button.hasAttribute('data-cta-persistent') ? 'cta-persistent' : 'cta-signal';
+        var persistent = button.hasAttribute('data-cta-persistent') ||
+          (mobile && button.hasAttribute('data-cta-mobile-persistent'));
+        var effect = persistent ? 'cta-persistent' : 'cta-signal';
         setTimeout(function(){ button.classList.add(effect); },280);
       } else if (attempts < 70) {
         setTimeout(waitUntilVisible,80);
@@ -201,7 +204,6 @@ var LUKA = (function(){
     return;
   }
 
-  var mobile = window.matchMedia('(max-width:640px)').matches;
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
       if (entry.isIntersecting) {
