@@ -33,10 +33,18 @@ SECTIONS = [
 ]
 
 VIEWPORTS = {
+    "desktop-1920": {"width": 1920, "height": 1080},
     "desktop-1440": {"width": 1440, "height": 900},
+    "laptop-1366": {"width": 1366, "height": 768},
     "desktop-1280": {"width": 1280, "height": 800},
+    "tablet-1024": {"width": 1024, "height": 768},
+    "tablet-820": {"width": 820, "height": 1180},
+    "tablet-768": {"width": 768, "height": 1024},
+    "mobile-430": {"width": 430, "height": 932},
     "mobile-390": {"width": 390, "height": 844},
+    "mobile-375": {"width": 375, "height": 812},
     "mobile-360": {"width": 360, "height": 800},
+    "mobile-320": {"width": 320, "height": 568},
 }
 
 
@@ -101,10 +109,34 @@ def collect_layout(page: Page) -> dict:
           return {
             viewport: [innerWidth, innerHeight],
             document: [document.documentElement.scrollWidth, document.documentElement.scrollHeight],
+            input: {
+              touchLike: matchMedia('(hover:none),(pointer:coarse)').matches,
+              compact: matchMedia('(max-width:640px)').matches,
+            },
             horizontalOverflow: document.documentElement.scrollWidth > innerWidth + 1,
             viewportOverflow: viewportOverflow.slice(0, 60),
             clippedText: clippedText.slice(0, 60),
             tinyTargets: tinyTargets.slice(0, 60),
+            testimonials: [...document.querySelectorAll('.voices-row')].map((row) => ({
+              scrollLeft: Math.round(row.scrollLeft),
+              overflowX: getComputedStyle(row).overflowX,
+              maskImage: getComputedStyle(row).maskImage,
+              trackAnimation: getComputedStyle(row.querySelector('.voices-track')).animationName,
+            })),
+            images: [...document.images].map((img) => {
+              const r = img.getBoundingClientRect();
+              const objectFit = getComputedStyle(img).objectFit;
+              const naturalRatio = img.naturalWidth && img.naturalHeight ? img.naturalWidth / img.naturalHeight : 0;
+              const renderedRatio = r.width && r.height ? r.width / r.height : 0;
+              const ratioDelta = naturalRatio && renderedRatio ? Number(Math.abs(naturalRatio - renderedRatio).toFixed(3)) : null;
+              return {
+                src:img.getAttribute('src') || '',complete:img.complete,
+                natural:[img.naturalWidth,img.naturalHeight],rendered:[Math.round(r.width),Math.round(r.height)],
+                upscale:img.naturalWidth ? Number((r.width / img.naturalWidth).toFixed(2)) : null,
+                objectFit,ratioDelta,
+                distorted:ratioDelta !== null && ratioDelta > .02 && !['cover','contain'].includes(objectFit)
+              };
+            }),
           };
         }
         """
@@ -164,12 +196,20 @@ def audit_viewport(page: Page, name: str, output: Path, base_url: str) -> dict:
             page.wait_for_timeout(350)
     page.locator(".preloader").wait_for(state="attached", timeout=3_000)
     preloader_ms = wait_for_preloader(page, started)
-    page.wait_for_load_state("networkidle", timeout=30_000)
+    try:
+        page.wait_for_load_state("networkidle", timeout=12_000)
+    except Exception:
+        page.wait_for_load_state("domcontentloaded", timeout=3_000)
+    page.wait_for_function(
+        "() => [...document.images].filter((img) => img.loading !== 'lazy').every((img) => img.complete)",
+        timeout=15_000,
+    )
     hero_timing = sample_hero_timing(page, started)
     page.wait_for_timeout(450)
 
     shot_dir = output / name
     shot_dir.mkdir(parents=True, exist_ok=True)
+    page.screenshot(path=str(shot_dir / "00-viewport-top.png"))
     page.screenshot(path=str(shot_dir / "00-full-page.png"), full_page=True)
 
     section_metrics = {}
@@ -502,7 +542,11 @@ def main() -> None:
             for name, viewport in VIEWPORTS.items():
                 if args.viewport and name != args.viewport:
                     continue
-                context = browser.new_context(viewport=viewport, device_scale_factor=1)
+                context = browser.new_context(
+                    viewport=viewport,
+                    device_scale_factor=1,
+                    has_touch=viewport["width"] <= 1024,
+                )
                 page = context.new_page()
                 report[name] = audit_viewport(page, name, output, args.base_url)
                 context.close()
@@ -514,6 +558,7 @@ def main() -> None:
             context = browser.new_context(
                 viewport={"width": 390, "height": 844},
                 device_scale_factor=1,
+                has_touch=True,
             )
             report["entry-timing-mobile"] = audit_mobile_entry_timing(
                 context.new_page(), output, args.base_url
@@ -528,6 +573,7 @@ def main() -> None:
                 viewport={"width": 390, "height": 844},
                 device_scale_factor=1,
                 reduced_motion="reduce",
+                has_touch=True,
             )
             report["reduced-motion-mobile"] = audit_reduced_motion(
                 context.new_page(), args.base_url
