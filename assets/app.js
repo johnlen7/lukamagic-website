@@ -22,6 +22,7 @@ var LUKA = (function(){
 
 // preloader hi-tech: some no window.load, com tempo minimo de exibicao + fallback
 (function(){
+  if (window.__lukaPreloaderManaged) return;
   var pre = document.querySelector('.preloader');
   if (!pre) return;
   var reduced = LUKA.reduced;
@@ -29,7 +30,7 @@ var LUKA = (function(){
   var body = document.body;
   body.classList.add('pre-lock');
 
-  var MIN = reduced ? 250 : 900;          // ms minimos com o loader na tela
+  var MIN = reduced ? 120 : 700;          // ms mínimos com o loader na tela
   var t0 = Date.now();
   var done = false, finished = false;
 
@@ -53,6 +54,7 @@ var LUKA = (function(){
       if (pct) pct.textContent = '100%';
       body.classList.add('pre-done');
       body.classList.remove('pre-lock');
+      window.__lukaPreDone = true;
       window.dispatchEvent(new Event('luka:pre-done'));   // dispara a entrada do hero
       setTimeout(function(){ if (pre && pre.parentNode) pre.parentNode.removeChild(pre); }, 700);
     }, wait);
@@ -60,7 +62,7 @@ var LUKA = (function(){
 
   if (document.readyState === 'complete') finish();
   else window.addEventListener('load', finish);
-  setTimeout(finish, 5000);             // fallback: nunca trava a pagina
+  setTimeout(finish, 1600);             // fallback: nunca trava a página
 })();
 
 // Lenis smooth scroll integrado ao ticker do GSAP (ancoras suaves inclusas)
@@ -69,7 +71,8 @@ var LUKA = (function(){
 
   var lenis = new Lenis({ lerp: 0.11, wheelMultiplier: 1, smoothWheel: true });
   lenis.stop();                                  // destrava só após o preloader
-  window.addEventListener('luka:pre-done', function(){ lenis.start(); }, { once: true });
+  if (window.__lukaPreDone) lenis.start();
+  else window.addEventListener('luka:pre-done', function(){ lenis.start(); }, { once: true });
 
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add(function(time){ lenis.raf(time * 1000); });
@@ -90,29 +93,50 @@ var LUKA = (function(){
 
 // reveal-on-scroll (GSAP ScrollTrigger) + fallback IntersectionObserver
 (function(){
-  var els = document.querySelectorAll('.reveal, .stagger');
-  var sticky = document.querySelector('.sticky-mobile');
-  var heroCta = document.querySelector('.hero .actions');
+  var reveals = document.querySelectorAll('.reveal');
+  var staggerBoxes = document.querySelectorAll('.stagger');
+  var mobile = window.matchMedia('(max-width:640px)').matches;
 
   if (!LUKA.motion) {
-    // fallback: sistema original por IntersectionObserver (ou tudo visível)
+    // fallback: no mobile, cada filho entra só quando chega à área de leitura.
     if (LUKA.reduced || !('IntersectionObserver' in window)) {
-      els.forEach(function(el){ el.classList.add('in'); });
+      reveals.forEach(function(el){ el.classList.add('in'); });
+      staggerBoxes.forEach(function(box){ box.classList.add('in'); });
     } else {
       var io = new IntersectionObserver(function(entries){
         entries.forEach(function(e){
           if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
         });
-      }, { threshold: .1, rootMargin: '0px 0px -18% 0px' });
-      els.forEach(function(el){ io.observe(el); });
+      }, {
+        threshold: .1,
+        rootMargin: mobile ? '0px 0px -30% 0px' : '0px 0px -18% 0px'
+      });
+      reveals.forEach(function(el){
+        if (!mobile || !el.classList.contains('stagger')) io.observe(el);
+      });
+
+      if (mobile) {
+        var childIo = new IntersectionObserver(function(entries){
+          entries.forEach(function(e){
+            if (e.isIntersecting) { e.target.classList.add('in'); childIo.unobserve(e.target); }
+          });
+        }, { threshold: .1, rootMargin: '0px 0px -28% 0px' });
+        staggerBoxes.forEach(function(box){
+          Array.prototype.forEach.call(box.children,function(child){ childIo.observe(child); });
+        });
+      } else {
+        staggerBoxes.forEach(function(box){ io.observe(box); });
+      }
     }
   } else {
     // GSAP assume: CSS entrega o estado final limpo (sem transition) e o
     // gsap.from() anima A PARTIR do estado inicial — ver body.gsap-motion no CSS
     document.body.classList.add('gsap-motion');
-    els.forEach(function(el){ el.classList.add('in'); });
+    reveals.forEach(function(el){ el.classList.add('in'); });
+    staggerBoxes.forEach(function(box){ box.classList.add('in'); });
 
     gsap.utils.toArray('.reveal').forEach(function(el){
+      if (mobile && el.classList.contains('stagger')) return;
       var from = { opacity: 0, y: 26 };
       if (el.classList.contains('from-left'))  { from = { opacity: 0, x: -52 }; }
       if (el.classList.contains('from-right')) { from = { opacity: 0, x: 52 }; }
@@ -123,61 +147,97 @@ var LUKA = (function(){
         else { from = { opacity: 0, y: 26 }; }
       }
       gsap.from(el, Object.assign(from, {
-        duration: .9, ease: 'power3.out',
-        scrollTrigger: { trigger: el, start: 'top 82%', once: true }
+        duration: 1.05, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: mobile ? 'top 70%' : 'top 86%', once: true }
       }));
     });
 
     gsap.utils.toArray('.stagger').forEach(function(box){
-      gsap.from(box.children, {
-        opacity: 0, y: 28, duration: .75, ease: 'power3.out', stagger: .1,
-        scrollTrigger: { trigger: box, start: 'top 82%', once: true }
-      });
+      if (mobile) {
+        gsap.utils.toArray(box.children).forEach(function(child){
+          gsap.from(child, {
+            opacity: 0,y: 26,duration: .9,ease: 'power3.out',
+            scrollTrigger: { trigger: child,start: 'top 72%',once: true }
+          });
+        });
+      } else {
+        gsap.from(box.children, {
+          opacity: 0,y: 28,duration: .9,ease: 'power3.out',stagger: .14,
+          scrollTrigger: { trigger: box,start: 'top 86%',once: true }
+        });
+      }
     });
   }
 
-  // botão sticky mobile só aparece depois que o CTA do hero sai da tela
-  if (sticky && heroCta && 'IntersectionObserver' in window) {
-    var sio = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        sticky.classList.toggle('show', !e.isIntersecting);
-      });
-    }, { threshold: 0 });
-    sio.observe(heroCta);
-  } else if (sticky) {
-    sticky.classList.add('show');
-  }
 })();
 
-// hero: timeline de entrada coreografada pós-preloader + parallax no scroll
+// CTAs principais: sinal curto para exploração; pulso espaçado para decisão VIP.
+(function(){
+  var buttons = document.querySelectorAll('[data-cta-attention]');
+  if (!buttons.length || LUKA.reduced) return;
+
+  function arm(button){
+    var attempts = 0;
+    function waitUntilVisible(){
+      attempts += 1;
+      var opacity = 1;
+      var node = button;
+      while (node && node !== document.documentElement) {
+        opacity *= parseFloat(getComputedStyle(node).opacity || '1');
+        node = node.parentElement;
+      }
+      if (opacity >= .94) {
+        var effect = button.hasAttribute('data-cta-persistent') ? 'cta-persistent' : 'cta-signal';
+        setTimeout(function(){ button.classList.add(effect); },280);
+      } else if (attempts < 70) {
+        setTimeout(waitUntilVisible,80);
+      }
+    }
+    waitUntilVisible();
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    buttons.forEach(arm);
+    return;
+  }
+
+  var mobile = window.matchMedia('(max-width:640px)').matches;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        arm(entry.target);
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: .65,rootMargin: mobile ? '0px 0px -20% 0px' : '0px 0px -12% 0px' });
+  buttons.forEach(function(button){ io.observe(button); });
+})();
+
+// hero: timeline de entrada coreografada pós-preloader
 (function(){
   if (!LUKA.motion) return;
+  // Se o carregador terminou antes do CDN, mantém o hero estável e visível.
+  if (window.__lukaPreDone) return;
 
   var seq = [
     '.hero .kicker', '.hero h1', '.hero .lead',
     '.hero .actions .btn', '.hero .fineprint', '.hero-photo .stamp span'
   ];
   gsap.set(seq.join(','), { opacity: 0, y: 34 });
-  gsap.set('.hero h1', { clipPath: 'inset(0 0 100% 0)' });
 
   var tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
-  tl.to('.hero .kicker', { opacity: 1, y: 0, duration: .6 })
-    .to('.hero h1', { opacity: 1, y: 0, clipPath: 'inset(0 0 -8% 0)', duration: 1 }, '-=.3')
-    .to('.hero .lead', { opacity: 1, y: 0, duration: .7 }, '-=.55')
-    .to('.hero .actions .btn', { opacity: 1, y: 0, duration: .6, stagger: .12 }, '-=.45')
-    .to('.hero .fineprint', { opacity: 1, y: 0, duration: .6 }, '-=.35')
-    .to('.hero-photo .stamp span', { opacity: 1, y: 0, duration: .6, stagger: .12 }, '-=.5');
+  tl.to('.hero .kicker', { opacity: 1, y: 0, duration: .72 })
+    .to('.hero h1', { opacity: 1, y: 0, duration: 1.08 }, '-=.24')
+    .to('.hero .lead', { opacity: 1, y: 0, duration: .82 }, '-=.42')
+    .to('.hero .actions .btn', { opacity: 1, y: 0, duration: .72, stagger: .16 }, '-=.3')
+    .to('.hero .fineprint', { opacity: 1, y: 0, duration: .7 }, '-=.22')
+    .to('.hero-photo .stamp span', { opacity: 1, y: 0, duration: .72, stagger: .16 }, '-=.34');
 
   var played = false;
   function play(){ if (!played) { played = true; tl.play(); } }
   window.addEventListener('luka:pre-done', play, { once: true });
   setTimeout(play, 6000);                    // fallback absoluto
 
-  // parallax sutil da arena ao rolar
-  gsap.to('.hero', {
-    backgroundPosition: 'center 22%', ease: 'none',
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
-  });
 })();
 
 // nav: esconde ao rolar pra baixo, reaparece ao subir + barra de progresso

@@ -21,7 +21,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700;900&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="assets/styles.css">
 </head>
-<body>
+<body class="pre-lock">
+
+<a class="skip-link" href="#top">Ir para o conteúdo principal</a>
 
 <!-- PRELOADER hi-tech -->
 <div class="preloader" role="status" aria-label="Carregando análises">
@@ -38,6 +40,53 @@
   </div>
 </div>
 <noscript><style>.preloader{display:none!important}</style></noscript>
+<script>
+/* O preloader começa antes dos CDNs e nunca bloqueia a página por mais de 1,6 s. */
+(function(){
+  var pre = document.querySelector('.preloader');
+  if (!pre) return;
+  window.__lukaPreloaderManaged = true;
+  window.__lukaPreDone = false;
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var pct = pre.querySelector('.pre-pct');
+  var started = Date.now();
+  var minimum = reduced ? 120 : 700;
+  var done = false;
+  var finished = false;
+  var value = 0;
+
+  function tick(){
+    if (done || reduced) return;
+    value += Math.max(.5,(92 - value) * .045);
+    if (value > 92) value = 92;
+    if (pct) pct.textContent = ('0' + Math.floor(value)).slice(-2) + '%';
+    requestAnimationFrame(tick);
+  }
+
+  function finish(){
+    if (finished) return;
+    finished = true;
+    setTimeout(function(){
+      done = true;
+      if (pct) pct.textContent = '100%';
+      document.body.classList.add('pre-done');
+      document.body.classList.remove('pre-lock');
+      window.__lukaPreDone = true;
+      window.dispatchEvent(new Event('luka:pre-done'));
+      setTimeout(function(){ if (pre.parentNode) pre.parentNode.removeChild(pre); },700);
+    },Math.max(0,minimum - (Date.now() - started)));
+  }
+
+  requestAnimationFrame(tick);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded',finish,{once:true});
+  } else {
+    finish();
+  }
+  setTimeout(finish,1600);
+})();
+</script>
 
 <div class="riskbar">Ministério da Fazenda adverte: Aposta não é investimento · Proibido para menores de 18 anos · Resultados passados não garantem resultados futuros · Jogue com responsabilidade</div>
 
@@ -55,7 +104,7 @@
       <a href="#luka">O Luka</a>
       <a href="#planos">Planos</a>
     </div>
-    <a class="btn" href="#planos">Quero ser VIP</a>
+    <a class="btn btn-attention" href="#planos" data-cta-attention data-cta-persistent>Quero ser VIP</a>
   </div>
 </nav>
 
@@ -93,7 +142,7 @@
         <h1>Análises esportivas de quem vive de <span class="gold">estatística</span>, não de sorte!</h1>
         <p class="lead">Acompanhe análises estatísticas diárias de futebol, NBA, tênis e outros esportes, feitas por uma equipe que estuda os jogos a fundo. <b>Sem promessa de ganho garantido.</b></p>
         <div class="actions">
-          <a class="btn" href="#planos">Conhecer os grupos</a>
+          <a class="btn btn-attention" href="#planos" data-cta-attention>Conhecer os grupos</a>
           <a class="btn ghost" href="#depoimentos">Ver o que os membros dizem</a>
         </div>
         <p class="fineprint">Ministério da Fazenda adverte: Aposta não é investimento — Proibido para menores de 18 anos.</p>
@@ -227,7 +276,7 @@
         <span class="kicker">Comunidade</span>
         <h2>Entre para a maior comunidade de análises esportivas diárias <span class="gold">com quem estuda o mercado de perto.</span></h2>
         <p>No grupo fechado, a análise chega <b>antes de a bola rolar</b> — com mercado, odd, stake e o raciocínio completo por trás de cada entrada.</p>
-        <a class="btn" href="#planos">Quero fazer parte</a>
+        <a class="btn btn-attention" href="#planos" data-cta-attention>Quero fazer parte</a>
       </div>
       <div class="community-media reveal zoom" aria-hidden="true"></div>
     </div>
@@ -386,7 +435,7 @@
         <div class="txt reveal from-left mob-x">
           <span class="sec-index">06 <b>/ 09</b></span>
           <span class="kicker">Comparativo</span>
-          <h2>Mais de 7 anos no mercado de análises esportivas, com uma das maiores comunidades do Brasil.</h2>
+          <h2>Mais de 7 anos de mercado. Uma das maiores comunidades de análises do Brasil.</h2>
         </div>
       </div>
       <div class="compare stagger">
@@ -498,7 +547,7 @@
             <li>Aulas de gestão e método</li>
             <li>Comunidade + suporte</li>
           </ul>
-          <a class="btn" href="https://pay.kirvano.com/931a877d-a3c8-4bf5-9b49-048f2d487bdf" target="_blank" rel="noopener">Quero ser VIP</a>
+          <a class="btn btn-attention" href="https://pay.kirvano.com/931a877d-a3c8-4bf5-9b49-048f2d487bdf" target="_blank" rel="noopener" data-cta-attention data-cta-persistent>Quero ser VIP</a>
         </article>
         <article class="plan card-hl">
           <span class="tag">Temporada</span>
@@ -528,7 +577,7 @@
         <span class="sec-index">09 <b>/ 09</b></span>
         <span class="kicker">Perguntas</span>
         <h2>Sem letra miúda.</h2>
-        <p style="margin-top:14px;color:var(--cinza)">O que você precisa saber antes de entrar — respondido direto.</p>
+        <p class="faq-intro">O que você precisa saber antes de entrar — respondido direto.</p>
       </div>
       <div class="faq-list reveal from-right">
         <details open>
@@ -561,7 +610,7 @@
       <h2 class="reveal">A próxima análise sai amanhã. <span class="gold">Com ou sem você.</span></h2>
       <p class="reveal">Escolhe o plano, confirma o pagamento e recebe o acesso pelo suporte oficial em minutos.</p>
       <div class="actions reveal stagger">
-        <a class="btn" href="#planos">Quero ser VIP</a>
+        <a class="btn btn-attention" href="#planos" data-cta-attention data-cta-persistent>Quero ser VIP</a>
         <a class="btn ghost" href="#faq">Tirar dúvidas</a>
       </div>
     </div>
@@ -573,7 +622,7 @@
   <div class="wrap">
     <div class="cols">
       <div class="brandline">Luka <b>Magic</b> Black</div>
-      <nav>
+      <nav aria-label="Links legais e suporte">
         <a href="#">Termos</a>
         <a href="#">Privacidade</a>
         <a href="#">Jogo responsável</a>
@@ -588,8 +637,6 @@
     <p>Conteúdo destinado a maiores de 18 anos. Apostas esportivas envolvem risco financeiro e podem gerar perdas. Nenhum resultado passado garante resultado futuro. Jogue com responsabilidade. Protótipo de redesign — adicionar termos, política de privacidade, reembolso e links reais de checkout antes de produção.</p>
   </div>
 </footer>
-
-<div class="sticky-mobile"><a class="btn" href="#planos">Quero ser VIP</a></div>
 
 <div class="cursor-ring" aria-hidden="true"></div>
 <div class="cursor-dot" aria-hidden="true"></div>
