@@ -212,8 +212,12 @@ body.pre-done .preloader{opacity:0;visibility:hidden;pointer-events:none}
 .btn-attention.cta-signal::after{
   animation:cta-shot-clock 1.15s cubic-bezier(.2,.75,.2,1) .28s 2;
 }
+.btn-attention.cta-persistent{
+  animation:cta-vip-beacon 2.6s cubic-bezier(.2,.75,.2,1) infinite;
+  transform-origin:center;will-change:scale,filter;
+}
 .btn-attention.cta-persistent::after{
-  animation:cta-vip-pulse 3.4s cubic-bezier(.2,.75,.2,1) infinite;
+  animation:cta-vip-pulse 2.6s cubic-bezier(.2,.75,.2,1) infinite;
 }
 .btn-attention:hover::after{opacity:.28;transform:none}
 @keyframes cta-shot-clock{
@@ -222,13 +226,20 @@ body.pre-done .preloader{opacity:0;visibility:hidden;pointer-events:none}
   44%{opacity:.2;transform:scaleX(1)}
   64%,100%{opacity:0;transform:scaleX(.985)}
 }
-/* Duas batidas curtas e uma pausa longa: chama sem pressionar. */
+/* O corpo do CTA pulsa; a moldura interna reforça as duas batidas. */
+@keyframes cta-vip-beacon{
+  0%,100%{scale:1;filter:brightness(1) drop-shadow(0 0 0 rgba(247,179,43,0))}
+  10%{scale:1.045;filter:brightness(1.2) drop-shadow(0 0 13px rgba(247,179,43,.72))}
+  20%{scale:1.01;filter:brightness(1.04) drop-shadow(0 0 3px rgba(247,179,43,.18))}
+  29%{scale:1.035;filter:brightness(1.14) drop-shadow(0 0 10px rgba(247,179,43,.56))}
+  42%,92%{scale:1;filter:brightness(1) drop-shadow(0 0 0 rgba(247,179,43,0))}
+}
 @keyframes cta-vip-pulse{
   0%,100%{opacity:0;transform:scaleX(.94)}
-  8%{opacity:.78;transform:scaleX(1)}
-  18%{opacity:.14;transform:scaleX(1)}
-  25%{opacity:.64;transform:scaleX(1)}
-  37%,92%{opacity:0;transform:scaleX(.985)}
+  10%{opacity:.82;transform:scaleX(1)}
+  20%{opacity:.14;transform:scaleX(1)}
+  29%{opacity:.7;transform:scaleX(1)}
+  42%,92%{opacity:0;transform:scaleX(.985)}
 }
 .btn.ghost{
   background:transparent;color:var(--branco);
@@ -814,6 +825,7 @@ body.gsap-motion .reveal,body.gsap-motion .stagger>*{opacity:1;transform:none;tr
   .voices-row{overflow-x:auto}
   .plan.featured{animation:none;border-color:var(--ouro)}
   .proof-modal[open]{animation:none}
+  .btn-attention.cta-persistent{animation:none;scale:1;filter:none}
   .btn::before,.btn-attention::after{display:none}
 }
 /* sem cursor customizado em touch/coarse */

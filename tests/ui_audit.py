@@ -279,13 +279,22 @@ def audit_mobile_entry_timing(page: Page, output: Path, base_url: str) -> dict:
             armed:el.classList.contains('cta-persistent'),
             visible:box.width > 0 && box.height >= 44 && getComputedStyle(el).display !== 'none',
             width:Math.round(box.width),height:Math.round(box.height),
-            animationName:frame.animationName,animationDuration:frame.animationDuration
+            animationName:frame.animationName,animationDuration:frame.animationDuration,
+            buttonAnimationName:getComputedStyle(el).animationName,
+            buttonAnimationDuration:getComputedStyle(el).animationDuration
           };
         }"""
     )
     nav_cta.evaluate("el => { el.classList.remove('cta-persistent'); void el.offsetWidth; el.classList.add('cta-persistent'); }")
-    page.wait_for_timeout(300)
+    page.wait_for_timeout(260)
+    nav_pulse_style = nav_cta.evaluate(
+        "el => ({scale:getComputedStyle(el).scale,filter:getComputedStyle(el).filter})"
+    )
     page.screenshot(path=str(motion_dir / "nav-vip-pulse-mobile.png"))
+    page.wait_for_timeout(900)
+    nav_rest_style = nav_cta.evaluate(
+        "el => ({scale:getComputedStyle(el).scale,filter:getComputedStyle(el).filter})"
+    )
 
     place_at_read_line(first)
     page.wait_for_timeout(1_050)
@@ -322,6 +331,7 @@ def audit_mobile_entry_timing(page: Page, output: Path, base_url: str) -> dict:
         """el => ({
           armed:el.classList.contains('cta-persistent'),
           animationName:getComputedStyle(el,'::after').animationName,
+          buttonAnimationName:getComputedStyle(el).animationName,
           cardAnimationName:getComputedStyle(el.closest('.plan.featured')).animationName
         })"""
     )
@@ -345,6 +355,8 @@ def audit_mobile_entry_timing(page: Page, output: Path, base_url: str) -> dict:
         "afterFirstCard": after_first,
         "afterSecondCard": after_second,
         "navPersistent": nav_persistent,
+        "navPulseStyle": nav_pulse_style,
+        "navRestStyle": nav_rest_style,
         "ctaSignalArmed": cta_signal,
         "ctaPeakStyle": cta_peak_style,
         "fullAccessPersistent": full_access_persistent,
@@ -402,7 +414,8 @@ def audit_reduced_motion(page: Page, base_url: str) -> dict:
               ticker: animationName('.plantao-track'),
               testimonials: animationName('.voices-track'),
               featuredPlan: animationName('.plan.featured'),
-              ctaFrame: animationName('.btn-attention', '::after')
+              ctaFrame: animationName('.btn-attention', '::after'),
+              ctaButton: animationName('[data-cta-persistent]')
             }
           };
         }
