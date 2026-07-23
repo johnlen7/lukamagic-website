@@ -213,11 +213,11 @@ body.pre-done .preloader{opacity:0;visibility:hidden;pointer-events:none}
   animation:cta-shot-clock 1.15s cubic-bezier(.2,.75,.2,1) .28s 2;
 }
 .btn-attention.cta-persistent{
-  animation:cta-vip-beacon 2.6s cubic-bezier(.2,.75,.2,1) infinite;
+  animation:cta-vip-beacon 4.4s cubic-bezier(.2,.75,.2,1) infinite;
   transform-origin:center;will-change:scale,filter;
 }
 .btn-attention.cta-persistent::after{
-  animation:cta-vip-pulse 2.6s cubic-bezier(.2,.75,.2,1) infinite;
+  animation:cta-vip-pulse 4.4s cubic-bezier(.2,.75,.2,1) infinite;
 }
 .btn-attention:hover::after{opacity:.28;transform:none}
 @keyframes cta-shot-clock{

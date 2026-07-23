@@ -286,12 +286,12 @@ def audit_mobile_entry_timing(page: Page, output: Path, base_url: str) -> dict:
         }"""
     )
     nav_cta.evaluate("el => { el.classList.remove('cta-persistent'); void el.offsetWidth; el.classList.add('cta-persistent'); }")
-    page.wait_for_timeout(260)
+    page.wait_for_timeout(440)
     nav_pulse_style = nav_cta.evaluate(
         "el => ({scale:getComputedStyle(el).scale,filter:getComputedStyle(el).filter})"
     )
     page.screenshot(path=str(motion_dir / "nav-vip-pulse-mobile.png"))
-    page.wait_for_timeout(900)
+    page.wait_for_timeout(1_500)
     nav_rest_style = nav_cta.evaluate(
         "el => ({scale:getComputedStyle(el).scale,filter:getComputedStyle(el).filter})"
     )
