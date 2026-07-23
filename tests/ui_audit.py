@@ -209,6 +209,9 @@ def audit_viewport(page: Page, name: str, output: Path, base_url: str) -> dict:
         page.wait_for_timeout(120)
     page.wait_for_timeout(1_100)
     layout = collect_layout(page)
+    hero_cta = page.locator(".hero [data-cta-mobile-persistent]")
+    hero_cta.scroll_into_view_if_needed()
+    page.wait_for_timeout(900)
     cta_modes = page.evaluate(
         """() => {
           const hero = document.querySelector('.hero [data-cta-mobile-persistent]');
@@ -297,12 +300,12 @@ def audit_mobile_entry_timing(page: Page, output: Path, base_url: str) -> dict:
         }"""
     )
     nav_cta.evaluate("el => { el.classList.remove('cta-persistent'); void el.offsetWidth; el.classList.add('cta-persistent'); }")
-    page.wait_for_timeout(440)
+    page.wait_for_timeout(570)
     nav_pulse_style = nav_cta.evaluate(
         "el => ({scale:getComputedStyle(el).scale,filter:getComputedStyle(el).filter})"
     )
     page.screenshot(path=str(motion_dir / "nav-vip-pulse-mobile.png"))
-    page.wait_for_timeout(1_500)
+    page.wait_for_timeout(650)
     nav_rest_style = nav_cta.evaluate(
         "el => ({scale:getComputedStyle(el).scale,filter:getComputedStyle(el).filter})"
     )
@@ -321,7 +324,7 @@ def audit_mobile_entry_timing(page: Page, output: Path, base_url: str) -> dict:
         })"""
     )
     hero_cta.evaluate("el => { el.classList.remove('cta-persistent'); void el.offsetWidth; el.classList.add('cta-persistent'); }")
-    page.wait_for_timeout(440)
+    page.wait_for_timeout(570)
     page.screenshot(path=str(motion_dir / "hero-groups-pulse-mobile.png"))
 
     place_at_read_line(first)
@@ -364,7 +367,7 @@ def audit_mobile_entry_timing(page: Page, output: Path, base_url: str) -> dict:
         })"""
     )
     full_access_cta.evaluate("el => { el.classList.remove('cta-persistent'); void el.offsetWidth; el.classList.add('cta-persistent'); }")
-    page.wait_for_timeout(300)
+    page.wait_for_timeout(570)
     page.screenshot(path=str(motion_dir / "full-access-vip-pulse-mobile.png"))
 
     cta_hierarchy = page.evaluate(
